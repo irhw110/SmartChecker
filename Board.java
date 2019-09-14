@@ -1,22 +1,17 @@
-import Pawn.java;
-
 public class Board{
     private int width;
     private int height;
-    private Pawn whitePawn[];
-    private Pawn blackPawn[];
+    private int board[][];
 
-    public Board(int width, int height, int countWhitePawn, int countBlackPawn){
+    public Board(int width, int height){
         this.width = width;
         this.height = height;
-        this.whitePawn = new Pawn[countWhitePawn];
-        for (i=0;i<countWhitePawn;i++){
-            whitePawn[i] = new Pawn();
-        }
 
-        this.blackPawn = new Pawn[countBlackPawn];
-        for (i=0;i<countWhitePawn;i++){
-            blackPawn[i] = new Pawn();
+        board = new int[height][width];
+        for (int i=0; i<height; i++){
+            for (int j=0; j< width; j++) {
+                board[i][j] = State.NOPAWN;
+            }
         }
     }
     
