@@ -1,20 +1,23 @@
-import Point.java;
-
 public class Pawn{
     private Point posisi;
     private boolean isKing;
 
     public Pawn(Point posisi, boolean isKing){
         this.posisi = posisi;
-        this.isKing = false;
+        this.isKing = isKing;
     }
 
-    public setKing(){
+    public void setKing(){
         this.isKing = true;
     }
 
-    public setPosisi(int x, int y){
+    public void setPosisi(int x, int y){
         this.posisi.setX(x);
         this.posisi.setY(y);
     }
+
+    public Point getPosisi(){
+        return posisi;
+    }
+
 }
