@@ -5,4 +5,3 @@ class State{
     static final int WHITE = 3;
     static final int WKING = 4;
     static boolean WTURN; /* true berarti putih lagi yang jalan, false berarti hitam yang jalan */
-}
