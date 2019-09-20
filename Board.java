@@ -13,7 +13,7 @@ public class Board {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 // White Pawns
-                if ((i == 0 || i == 2) && (j % 2 == 0) || 
+                if ((i == 0 || i == 2) && (j % 2 == 0) ||
                     (i == 1 && j % 2 == 1)) {
                     board[i][j] = State.WHITE;
                 // Black Pawns
@@ -36,6 +36,18 @@ public class Board {
             }
             System.out.println();
         }
+    }
+
+    public int GetHeight() {
+      return this.height;
+    }
+
+    public int GetWidth() {
+      return this.width;
+    }
+
+    public int GetPawn(int x, int y) {
+        return this.board[x][y];
     }
 
     // Driver
