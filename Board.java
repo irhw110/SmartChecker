@@ -58,6 +58,8 @@ public class Board {
         return false;
     }
 
+    // function boolean IsCanEat()
+
     // Show the current checkers board
     public void ShowBoard(){
         for (int i=height-1; i>=0; i--) {
