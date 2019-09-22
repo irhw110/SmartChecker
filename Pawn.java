@@ -1,23 +1,36 @@
 public class Pawn{
-    private Point posisi;
-    private boolean isKing;
+    private int x;
+    private int y;
+    private int state;
 
-    public Pawn(Point posisi, boolean isKing){
-        this.posisi = posisi;
-        this.isKing = isKing;
+    public Pawn(int x, int y, int state){
+        this.x = x;
+        this.y = y;
+        this.state = state;
     }
 
-    public void setKing(){
-        this.isKing = true;
+    public void setX(int x){
+        this.x = x;
     }
 
-    public void setPosisi(int x, int y){
-        this.posisi.setX(x);
-        this.posisi.setY(y);
+    public void setY(int y){
+        this.y = y;
     }
 
-    public Point getPosisi(){
-        return posisi;
+    public void setState(int state){
+        this.state = state;
+    }
+    
+    public int getX(){
+        return this.x;
+    }
+
+    public int getY(){
+        return this.y;
+    }
+
+    public int getState(){
+        return this.state;
     }
 
 }
