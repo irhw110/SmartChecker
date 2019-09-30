@@ -130,12 +130,18 @@ public class Board {
                 board[x2][y2] = State.NOPAWN;
             }
             // Check if a pawn has reached the edge of the board 
-            if (State.WTURN && x1==7)
+            if (State.WTURN && x1==7) {
                 board[x1][y1] = State.WKING;
-            else if (!State.WTURN && x1==0)
+                int i = whitePawns.findPawn(x, y);
+                whitePawns.setPawnState(i, State.WKING);
+            } else if (!State.WTURN && x1==0) {
                 board[x1][y1] = State.BKING;
-            else
+                int i = whitePawns.findPawn(x, y);
+                whitePawns.setPawnState(i, State.BKING);
+            } else {
                 board[x1][y1] = board[x][y];
+            }
+            
             board[x][y] = State.NOPAWN;
             State.WTURN = !State.WTURN;
         }
