@@ -1,5 +1,5 @@
 public class Eval {
-		public int EvalBoard(Board b) {
+		public static int EvalBoard(Board b) {
 				// Board b2 = new Board();
 				int evalPetak = 0;
 				int totalEval = 0;
@@ -8,7 +8,7 @@ public class Eval {
 						for (int j=0; j<8; j++) {
 								evalPetak = evalPetak + EvalKedekatanMenjadiRaja(i, j, b);
 								evalPetak = evalPetak + EvalAmanDariMusuh(i,j,b);
-								if (b.GetPawn(i,j) == State.BLACK || b.GetPawn(i,j) == State.BKING) {
+								if (b.getPawn(i,j) == State.BLACK || b.getPawn(i,j) == State.BKING) {
 										evalPetak = -1*evalPetak;
 								}
 								// b2.SetBoard(i,j,evalPetak);
@@ -22,17 +22,17 @@ public class Eval {
 		}
 
 		/* Semakin dekat menjadi raja semakin tinggi nilai */
-		public int EvalKedekatanMenjadiRaja(int x, int y, Board b) {
+		public static int EvalKedekatanMenjadiRaja(int x, int y, Board b) {
 				/* setiap mendekati menjadi raja nilai akan meningkat 5 */
-				int nilaiMax = b.GetHeight()*5;
+				int nilaiMax = b.getHeight()*5;
 				int jarakKeRaja;
 				/* kalau dah raja tidak ngaruh nilainya */
-				if (b.GetPawn(x,y) == State.WKING || b.GetPawn(x,y) == State.BKING || b.GetPawn(x,y) == State.NOPAWN) {
+				if (b.getPawn(x,y) == State.WKING || b.getPawn(x,y) == State.BKING || b.getPawn(x,y) == State.NOPAWN) {
 						return 0;
 				/* evaluasi bukan raja */
 				} else {
-						if (b.GetPawn(x,y) == State.WHITE) {
-								jarakKeRaja = b.GetHeight() - x;
+						if (b.getPawn(x,y) == State.WHITE) {
+								jarakKeRaja = b.getHeight() - x;
 						} else {
 								jarakKeRaja = x+1;
 						}
@@ -41,26 +41,26 @@ public class Eval {
 		}
 
 		/* fungsi untuk mengecek apakah x y ada ancaman atau tidak */
-		public int EvalAmanDariMusuh(int x, int y, Board b) {
+		public static int EvalAmanDariMusuh(int x, int y, Board b) {
 				int nilaiEvaluasi = 0;
 
-				if (b.GetPawn(x,y) == State.NOPAWN) {
+				if (b.getPawn(x,y) == State.NOPAWN) {
 						return 0;
 				}
 				/* cek apakah disamping, samping pasti aman */
-				if (y == 0 || y == (b.GetWidth()-1)) {
+				if (y == 0 || y == (b.getWidth()-1)) {
 						return 48;
 				}
 
 				/* cek apakah diujung atas atau bawah, ujung atas atau bawah pasti aman */
-				if (x == 0 || x == (b.GetHeight()-1)) {
+				if (x == 0 || x == (b.getHeight()-1)) {
 						return 48;
 				}
 
 				/* x,y adalah bidak putih */
-				if (b.GetPawn(x,y) == State.WHITE || b.GetPawn(x,y) == State.WKING) {
-						if (b.GetPawn(x+1,y-1) == State.BLACK || b.GetPawn(x+1,y+1) == State.BLACK || b.GetPawn(x+1,y-1) == State.BKING ||
-						b.GetPawn(x-1,y-1) == State.BKING || b.GetPawn(x-1,y+1) == State.BKING || b.GetPawn(x+1,y+1) == State.BKING) {
+				if (b.getPawn(x,y) == State.WHITE || b.getPawn(x,y) == State.WKING) {
+						if (b.getPawn(x+1,y-1) == State.BLACK || b.getPawn(x+1,y+1) == State.BLACK || b.getPawn(x+1,y-1) == State.BKING ||
+						b.getPawn(x-1,y-1) == State.BKING || b.getPawn(x-1,y+1) == State.BKING || b.getPawn(x+1,y+1) == State.BKING) {
 								nilaiEvaluasi += AmanDariDiMakanMusuh(x+1, y-1, x-1, y+1, 0, b);
 								nilaiEvaluasi += AmanDariDiMakanMusuh(x-1, y-1, x+1, y+1, 0, b);
 								nilaiEvaluasi += AmanDariDiMakanMusuh(x+1, y+1, x-1, y-1, 0, b);
@@ -70,8 +70,8 @@ public class Eval {
 								return 48;
 						}
 				} else {
-						if (b.GetPawn(x-1,y+1) == State.WHITE || b.GetPawn(x-1,y-1) == State.WHITE || b.GetPawn(x+1,y-1) == State.WKING ||
-						b.GetPawn(x-1,y-1) == State.WKING || b.GetPawn(x-1,y+1) == State.WKING || b.GetPawn(x+1,y+1) == State.WKING) {
+						if (b.getPawn(x-1,y+1) == State.WHITE || b.getPawn(x-1,y-1) == State.WHITE || b.getPawn(x+1,y-1) == State.WKING ||
+						b.getPawn(x-1,y-1) == State.WKING || b.getPawn(x-1,y+1) == State.WKING || b.getPawn(x+1,y+1) == State.WKING) {
 								nilaiEvaluasi += AmanDariDiMakanMusuh(x+1, y-1, x-1, y+1, 1, b);
 								nilaiEvaluasi += AmanDariDiMakanMusuh(x-1, y-1, x+1, y+1, 1, b);
 								nilaiEvaluasi += AmanDariDiMakanMusuh(x+1, y+1, x-1, y-1, 1, b);
@@ -91,10 +91,10 @@ public class Eval {
 	  - side 0 artinya posisi sekarang adalah bidak putih
 	  - jika tidak ada ancaman artinya xenemy yenemy kosong atau warna bidaknya sama dengan posisi saat ini
 		*/
-		public int AmanDariDiMakanMusuh(int xenemy, int yenemy, int xbackup, int ybackup, int side, Board b) {
+		public static int AmanDariDiMakanMusuh(int xenemy, int yenemy, int xbackup, int ybackup, int side, Board b) {
 				if (side == 0) {
-						if (b.GetPawn(xenemy, yenemy) == State.BLACK || b.GetPawn(xenemy,yenemy) == State.BKING) {
-								if (b.GetPawn(xbackup, ybackup) == State.NOPAWN) {
+						if (b.getPawn(xenemy, yenemy) == State.BLACK || b.getPawn(xenemy,yenemy) == State.BKING) {
+								if (b.getPawn(xbackup, ybackup) == State.NOPAWN) {
 										return 0;
 								} else {
 										return 12;
@@ -103,8 +103,8 @@ public class Eval {
 								return 12;
 						}
 				} else {
-						if (b.GetPawn(xenemy, yenemy) == State.WHITE || b.GetPawn(xenemy,yenemy) == State.WKING) {
-								if (b.GetPawn(xbackup, ybackup) == State.NOPAWN) {
+						if (b.getPawn(xenemy, yenemy) == State.WHITE || b.getPawn(xenemy,yenemy) == State.WKING) {
+								if (b.getPawn(xbackup, ybackup) == State.NOPAWN) {
 										return 0;
 								} else {
 										return 12;
@@ -117,14 +117,17 @@ public class Eval {
 
 		// Driver
     public static void main(String args[]) {
-				Eval e = new Eval();
-				Board b2 = new Board();
-				b2.MovePawn(20,31);
-				b2.MovePawn(51,40);
-				b2.MovePawn(22,33);
-				b2.MovePawn(53,42);
-				b2.ShowBoard();
-				int total = e.EvalBoard(b2);
-				System.out.println(total);
+				// int[] a = RandomBot.moveTo(0,0,2);
+				// System.out.println(a[0]);
+				// System.out.println(a[1]);
+				// Eval e = new Eval();
+				// Board b2 = new Board();
+				// b2.movePawn(2,0,3,1);
+				// b2.movePawn(5,1,4,0);
+				// b2.movePawn(2,2,3,3);
+				// b2.movePawn(5,3,4,2);
+				// b2.showBoard();
+				// Board b3 = new Board(b2);
+				// b3.showBoard();
     }
 }

@@ -1,8 +1,8 @@
 import java.lang.Math;
 
 public class Board {
-    final int width;
-    final int height;
+    private int width;
+    private int height;
     private int board[][];
     private ArrayOfPawn whitePawns;
     private ArrayOfPawn blackPawns;
@@ -35,6 +35,19 @@ public class Board {
         State.WTURN = true;
         whitePawns = new ArrayOfPawn(State.COlORWHITE, 8);
         blackPawns = new ArrayOfPawn(State.COLORBLACK, 8);
+    }
+
+    public void copy(Board b) {
+        System.out.println("Copy constructor called");
+        height = b.height;
+        width = b.width;
+        for (int i=height-1; i>=0; i--) {
+            for (int j=0; j<width; j++) {
+                setBoard(i,j,b.getPawn(i,j));
+            }
+        }
+        whitePawns = b.whitePawns;
+        blackPawns = b.blackPawns;
     }
 
     public int[] SplitMove(int move){
@@ -178,7 +191,7 @@ public class Board {
         return this.board[x][y];
     }
 
-    public void SetBoard(int x, int y, int val) {
+    public void setBoard(int x, int y, int val) {
         this.board[x][y] = val;
     }
 
