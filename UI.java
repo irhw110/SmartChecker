@@ -58,8 +58,8 @@ public class UI{
         WPawn_AtBlackBox = "asset/GPawn-AtWhiteBox.png"; //type 3
         WKing_AtBlackBox = "asset/GKing-AtWhiteBox.png"; //type 4
 
-        for (int i=0; i<8; i++){
-            for (int j=7; j>=0; j--){
+        for (int i=7; i>=0; i--){
+            for (int j=0; j<8; j++){
                 //at the beginning must be assigned to enter the try catch
                 ImageIcon icon = new ImageIcon(white_box);
                 if(b.getPawn(i, j) == 0){

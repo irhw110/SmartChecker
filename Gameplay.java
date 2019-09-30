@@ -1,11 +1,13 @@
 import java.util.Scanner;
 
 public class Gameplay {
-    public static void main(String args[]) {
+    public static void main(String args[]) throws InterruptedException {
         Board b = new Board();
         RandomBot rb = new RandomBot();
         b.showBoard();
+        
         UI ui = new UI();
+        ui.updateUI(b);
         while (b.isEndGame() == 0) {
 
             // White turn, player
@@ -21,12 +23,14 @@ public class Gameplay {
             b.movePawn(currentX, currentY, moveX, moveY);
             b.showBoard();
             ui.updateUI(b);
+            Thread.sleep(500);
             
 
             //Black turn, random
             rb.moveRandomly(b);
             System.out.println("Giliran sekarang: "+State.WTURN);
             b.showBoard();
+            ui.updateUI(b);
         }
         if (b.isEndGame() == 1) {
             System.out.println("Putih menang gan");
