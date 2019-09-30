@@ -1,5 +1,4 @@
 import java.lang.Math;
-import java.util.Scanner;
 
 public class Board {
     final int width;
@@ -57,10 +56,6 @@ public class Board {
           y2 = y+1;
         }
 
-        System.out.println("x: "+x+" y: "+y);
-        System.out.println("x1: "+x1+" y1: "+y1);
-        System.out.println("x2: "+x2+" y2: "+y2);
-
         // Check if the x and y index is not out of bound
         if ((x>=0 && x<=7)&&(y>=0 && y<=7) &&
             (x1>=0 && x1<=7)&&(y1>=0 && y1<=7)) {
@@ -98,7 +93,7 @@ public class Board {
     }
 
     public void movePawn(int x, int y, int x1, int y1) {
-        if (IsLegalMove(x, y, x1, y1)){
+        if (isLegalMove(x, y, x1, y1)){
             int x2 = 0;
             int y2 = 0;
             /* pengisian x2 dengan diantara x1 dan x untuk kasus selisih abs x dan x1 adalah 2 */
@@ -143,8 +138,6 @@ public class Board {
                 board[x1][y1] = board[x][y];
             board[x][y] = State.NOPAWN;
             State.WTURN = !State.WTURN;
-            System.out.println("White: "+whitePawns.getLength());
-            System.out.println("Black: "+blackPawns.getLength());
         }
     }
 
@@ -187,25 +180,5 @@ public class Board {
         else if (blackPawns.getLength() == 0)
             return -1;
         return 0;
-    }
-    // Driver
-    public static void main(String args[]) {
-        Board b = new Board();
-        while (b.isEndGame() == 0) {
-            b.showBoard();
-            Scanner inp = new Scanner(System.in);
-            int currentX = inp.nextInt();
-            int currentY = inp.nextInt();
-            int moveX = inp.nextInt();
-            int moveY = inp.nextInt();
-            b.movePawn(currentX, currentY, moveX, moveY);
-            System.out.println("Giliran sekarang: "+State.WTURN);
-            inp.close();
-        }
-        if (b.isEndGame() == 1) {
-            System.out.println("Putih menang gan");
-        } else {
-            System.out.println("Hitam menang gan");
-        }
     }
 }
