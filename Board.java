@@ -36,7 +36,14 @@ public class Board {
         whitePawns = new ArrayOfPawn(State.COlORWHITE, 8);
         blackPawns = new ArrayOfPawn(State.COLORBLACK, 8);
     }
-    
+
+    public int[] SplitMove(int move){
+        int x1 = move/10;
+        int y1 = move%10;
+        return new int[] {x1, y1};
+    }
+
+
     // Check if a move is legal or not
     public boolean isLegalMove(int x, int y, int x1, int y1){
         int x2 = 0;
@@ -102,7 +109,7 @@ public class Board {
             } else if (x1>x) {
                 x2 = x+1;
             }
-    
+
             /* pengisian y2 dengan diantara y1 dan y untuk kasus selisih abs y dan y1 adalah 2 */
             if (y1<y) {
                 y2 = y-1;
@@ -129,8 +136,13 @@ public class Board {
                 whitePawns.deletePawn(x2,y2);
                 board[x2][y2] = State.NOPAWN;
             }
+<<<<<<< HEAD
             // Check if a pawn has reached the edge of the board 
             if (State.WTURN && x1==7) {
+=======
+            // Check if a pawn has reached the edge of the board
+            if (State.WTURN && x1==7)
+>>>>>>> b71142b0bad1e184b0d72dd535b4c6275ad1cfc0
                 board[x1][y1] = State.WKING;
                 int i = whitePawns.findPawn(x, y);
                 whitePawns.setPawnState(i, State.WKING);
@@ -175,6 +187,10 @@ public class Board {
 
     public int getPawn(int x, int y) {
         return this.board[x][y];
+    }
+
+    public void SetBoard(int x, int y, int val) {
+        this.board[x][y] = val;
     }
 
     // return 0 if The game hasn't ended yet,
