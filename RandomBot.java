@@ -28,6 +28,8 @@ public class RandomBot {
                 y = blackPawns.getYFrom(idx);
                 moves = moveTo(x, y, move);
             }
+            System.out.println("x: "+x+" y: "+y);
+            System.out.println("moveX: "+moves[0]+" moveY: "+moves[1]);
 
         } while (!b.isLegalMove(x, y, moves[0], moves[1]));
 

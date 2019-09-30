@@ -5,18 +5,22 @@ public class Gameplay {
         Board b = new Board();
         RandomBot rb = new RandomBot();
         b.showBoard();
+        UI ui = new UI();
         while (b.isEndGame() == 0) {
 
             // White turn, player
             System.out.println("Giliran sekarang: "+State.WTURN);
             Scanner inp = new Scanner(System.in);
-            int currentX = inp.nextInt();
-            int currentY = inp.nextInt();
-            int moveX = inp.nextInt();
-            int moveY = inp.nextInt();
-            System.out.println(currentX+' '+currentY+' '+moveX+' '+moveY);
+            int currentX, currentY, moveX, moveY;
+            do {
+                currentX = inp.nextInt();
+                currentY = inp.nextInt();
+                moveX = inp.nextInt();
+                moveY = inp.nextInt();
+            } while (!b.isLegalMove(currentX, currentY, moveX, moveY));
             b.movePawn(currentX, currentY, moveX, moveY);
             b.showBoard();
+            ui.updateUI(b);
             
 
             //Black turn, random

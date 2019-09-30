@@ -52,7 +52,7 @@ public class UI{
         }
     }  
 
-    public void UpdateUI(Board b){
+    public void updateUI(Board b){
         BPawn_AtWhiteBox = "asset/YPawn-AtWhiteBox.png"; //type 1
         BKing_AtWhiteBox = "asset/YKing-AtWhiteBox.png"; //type 2
         WPawn_AtBlackBox = "asset/GPawn-AtWhiteBox.png"; //type 3
@@ -62,7 +62,7 @@ public class UI{
             for (int j=7; j>=0; j--){
                 //at the beginning must be assigned to enter the try catch
                 ImageIcon icon = new ImageIcon(white_box);
-                if(b.GetPawn(i, j) == 0){
+                if(b.getPawn(i, j) == 0){
                     //ada yang item dan putih
                     if(((i%2 == 0) && (j%2 ==0)) || ((i%2 == 1) && (j%2 ==1))){
                         icon = new ImageIcon(white_box);
@@ -70,13 +70,13 @@ public class UI{
                         icon = new ImageIcon(black_box);
                     }
                     
-                } else if (b.GetPawn(i, j) == 1) {
+                } else if (b.getPawn(i, j) == 1) {
                     icon = new ImageIcon(BPawn_AtWhiteBox);
-                } else if (b.GetPawn(i, j) == 2){
+                } else if (b.getPawn(i, j) == 2){
                     icon = new ImageIcon(BKing_AtWhiteBox);
-                } else if (b.GetPawn(i, j) == 3){
+                } else if (b.getPawn(i, j) == 3){
                     icon = new ImageIcon(WPawn_AtBlackBox);
-                } else if (b.GetPawn(i, j) == 4){
+                } else if (b.getPawn(i, j) == 4){
                     icon = new ImageIcon(WKing_AtBlackBox);
                 }
                 try {
@@ -100,7 +100,7 @@ public class UI{
     public static void main(String[] args) {  
         UI ui = new UI();
         Board b = new Board();  
-        b.ShowBoard();
-        ui.UpdateUI(b);
+        b.showBoard();
+        ui.updateUI(b);
     }  
 }  
