@@ -136,13 +136,8 @@ public class Board {
                 whitePawns.deletePawn(x2,y2);
                 board[x2][y2] = State.NOPAWN;
             }
-<<<<<<< HEAD
             // Check if a pawn has reached the edge of the board 
             if (State.WTURN && x1==7) {
-=======
-            // Check if a pawn has reached the edge of the board
-            if (State.WTURN && x1==7)
->>>>>>> b71142b0bad1e184b0d72dd535b4c6275ad1cfc0
                 board[x1][y1] = State.WKING;
                 int i = whitePawns.findPawn(x, y);
                 whitePawns.setPawnState(i, State.WKING);
@@ -189,7 +184,7 @@ public class Board {
         return this.board[x][y];
     }
 
-    public void SetBoard(int x, int y, int val) {
+    public void setBoard(int x, int y, int val) {
         this.board[x][y] = val;
     }
 
