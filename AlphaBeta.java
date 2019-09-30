@@ -6,22 +6,24 @@ public class AlphaBeta {
     private ChosenMove chosenmove;
     // private Board current_checked_board;
     private int current_checked_board;
+    private int beta;
+    private int alpha;
 
 
     public ChosenMove alphabeta()   {
         depth=1;
-        ChosenMove temp_max= new ChosenMove(); //initialize value with MIN_INTEGER
+        ChosenMove temp_max= new ChosenMove(0,0,Integer.MIN_VALUE); //initialize value with MIN_INTEGER
         ChosenMove[] arrayset;
-        ChosenMove temp;
+        ChosenMove temp = new ChosenMove(0,0,0);
         arrayset=generateAllMove();
         int alpha= Integer.MIN_VALUE;
         int beta = Integer.MAX_VALUE;
 
 
         for(int i=0; i < arrayset.length; i++) {
-            temp = find_min_recursive(arrayset[i],alpha,beta);
+            temp.CopyChosenMove(find_min_recursive(arrayset[i]));
             if(temp.value > temp_max.value) {
-                temp_max = temp;
+                temp_max.CopyChosenMove(temp);
             }
             alpha = max( alpha, temp_max.value);
             if (beta <= alpha)
@@ -35,11 +37,11 @@ public class AlphaBeta {
         return temp_max;
     }
 
-    public ChosenMove find_max_recursive(ChosenMove C,int alpha,int beta)   {
+    public ChosenMove find_max_recursive(ChosenMove C)   {
         
-        ChosenMove temp_max= new ChosenMove(); //initialize value with MIN_INTEGER
+        ChosenMove temp_max= new ChosenMove(0,0,Integer.MIN_VALUE); //initialize value with MIN_INTEGER
         ChosenMove[] arrayset;
-        ChosenMove temp;
+        ChosenMove temp = new ChosenMove(0,0,0);
         arrayset=generateAllMove();
 
         depth++;
@@ -47,9 +49,9 @@ public class AlphaBeta {
         if(depth<MAXDEPTH)  {
             
             for(int i=0;i<arrayset.length;i++) {
-                temp = find_min_recursive(arrayset[i],alpha,beta);
+                temp.CopyChosenMove(find_min_recursive(arrayset[i]));
                 if(temp.value > temp_max.value) {
-                    temp_max = temp;
+                    temp_max.CopyChosenMove(temp);
                 }
                 alpha = max( alpha, temp_max.value);
                 if (beta <= alpha)
@@ -64,7 +66,7 @@ public class AlphaBeta {
         else {
             for(int i=0;i<arrayset.length;i++) {
                 if(arrayset[i].value > temp_max.value) {
-                    temp_max = arrayset[i];
+                    temp_max.CopyChosenMove(arrayset[i]);
                 }
             }
             // Iterate generateAllMoves
@@ -75,11 +77,11 @@ public class AlphaBeta {
         return temp_max;
     }
 
-    public ChosenMove find_min_recursive(ChosenMove C,int alpha, int beta)   {
-        ChosenMove temp_min= new ChosenMove(); //initialize value with MAX_INTEGER
+    public ChosenMove find_min_recursive(ChosenMove C)   {
+        ChosenMove temp_min= new ChosenMove(0,0,Integer.MAX_VALUE); //initialize value with MAX_INTEGER
         ChosenMove[] arrayset;
-        ChosenMove temp;
-        arrayset=generateAllMove();
+        ChosenMove temp = new ChosenMove(0,0,0);
+        arrayset = generateAllMove();
         
         depth++;
 
@@ -89,9 +91,9 @@ public class AlphaBeta {
             //eval find_max_recursive
             //cari min
             for(int i=0; i < arrayset.length; i++) {
-                temp = find_max_recursive(arrayset[i],alpha,beta);
+                temp.CopyChosenMove(find_max_recursive(arrayset[i]));
                 if(temp.value < temp_min.value) {
-                    temp_min = temp;
+                    temp_min.CopyChosenMove(temp);
                 }
                 beta = min( beta, temp_min.value);
                 if (beta <= alpha)
@@ -103,7 +105,7 @@ public class AlphaBeta {
             // find min
             for(int i=0; i < arrayset.length; i++) {
                 if(arrayset[i].value < temp_min.value) {
-                    temp_min = arrayset[i]; 
+                    temp_min.CopyChosenMove(arrayset[i]); 
                 }
             }
         }

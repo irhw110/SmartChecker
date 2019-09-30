@@ -10,15 +10,15 @@ public class Minimax {
 
     public ChosenMove minimax()   {
         depth=1;
-        ChosenMove temp_max= new ChosenMove(); //initialize value with MIN_INTEGER
+        ChosenMove temp_max= new ChosenMove(0,0,Integer.MIN_VALUE); //initialize value with MIN_INTEGER
         ChosenMove[] arrayset;
-        ChosenMove temp;
+        ChosenMove temp = new ChosenMove(0,0,0);
         arrayset=generateAllMove();
 
         for(int i=0; i < arrayset.length; i++) {
-            temp = find_min_recursive(arrayset[i]);
+            temp.CopyChosenMove(find_min_recursive(arrayset[i]));
             if(temp.value > temp_max.value) {
-                temp_max = temp;
+                temp_max.CopyChosenMove(temp);
             }
         }
         //generate all possible Board
@@ -30,9 +30,9 @@ public class Minimax {
 
     public ChosenMove find_max_recursive(ChosenMove C)   {
         
-        ChosenMove temp_max= new ChosenMove(); //initialize value with MIN_INTEGER
+        ChosenMove temp_max= new ChosenMove(0,0,Integer.MIN_VALUE); //initialize value with MIN_INTEGER
         ChosenMove[] arrayset;
-        ChosenMove temp;
+        ChosenMove temp = new ChosenMove(0,0,0);
         arrayset=generateAllMove();
 
         depth++;
@@ -40,9 +40,9 @@ public class Minimax {
         if(depth<MAXDEPTH)  {
             
             for(int i=0;i<arrayset.length;i++) {
-                temp = find_min_recursive(arrayset[i]);
+                temp.CopyChosenMove(find_min_recursive(arrayset[i]));
                 if(temp.value > temp_max.value) {
-                    temp_max = temp;
+                    temp_max.CopyChosenMove(temp);
                 }
             }
             //generate all possible Board
@@ -54,7 +54,7 @@ public class Minimax {
         else {
             for(int i=0;i<arrayset.length;i++) {
                 if(arrayset[i].value > temp_max.value) {
-                    temp_max = arrayset[i];
+                    temp_max.CopyChosenMove(arrayset[i]);
                 }
             }
             // Iterate generateAllMoves
@@ -66,9 +66,9 @@ public class Minimax {
     }
 
     public ChosenMove find_min_recursive(ChosenMove C)   {
-        ChosenMove temp_min= new ChosenMove(); //initialize value with MAX_INTEGER
+        ChosenMove temp_min= new ChosenMove(0,0,Integer.MAX_VALUE); //initialize value with MAX_INTEGER
         ChosenMove[] arrayset;
-        ChosenMove temp;
+        ChosenMove temp = new ChosenMove(0,0,0);
         arrayset=generateAllMove();
         
         depth++;
@@ -79,9 +79,9 @@ public class Minimax {
             //eval find_max_recursive
             //cari min
             for(int i=0; i<arrayset.length; i++) {
-                temp = find_max_recursive(arrayset[i]);
+                temp.CopyChosenMove(find_max_recursive(arrayset[i]));
                 if(temp.value < temp_min.value) {
-                    temp_min = temp;
+                    temp_min.CopyChosenMove(temp);
                 }
             }
         }
@@ -90,7 +90,7 @@ public class Minimax {
             // find min
             for(int i=0; i<arrayset.length; i++) {
                 if(arrayset[i].value < temp_min.value) {
-                    temp_min = arrayset[i]; 
+                    temp_min.CopyChosenMove(arrayset[i]); 
                 }
             }
         }
