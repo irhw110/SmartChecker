@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - UI",
+            "request": "launch",
+            "mainClass": "UI",
+            "projectName": "SmartChecker_43778a88"
+        }
+    ]
+}
