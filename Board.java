@@ -44,7 +44,7 @@ public class Board {
         return new int[] {x1, y1};
     }
 
-    
+
     // Check if a move is legal or not
     public boolean IsLegalMove(int current, int move){
         int[] arrCurrent = SplitMove(current);
@@ -126,7 +126,7 @@ public class Board {
             } else if (x1>x) {
                 x2 = x+1;
             }
-    
+
             /* pengisian y2 dengan diantara y1 dan y untuk kasus selisih abs y dan y1 adalah 2 */
             if (y1<y) {
                 y2 = y-1;
@@ -153,7 +153,7 @@ public class Board {
                 whitePawns.deletePawn(x2,y2);
                 board[x2][y2] = State.NOPAWN;
             }
-            // Check if a pawn has reached the edge of the board 
+            // Check if a pawn has reached the edge of the board
             if (State.WTURN && x1==7)
                 board[x1][y1] = State.WKING;
             else if (!State.WTURN && x1==0)
@@ -187,6 +187,10 @@ public class Board {
 
     public int GetPawn(int x, int y) {
         return this.board[x][y];
+    }
+
+    public void SetBoard(int x, int y, int val) {
+        this.board[x][y] = val;
     }
 
     // return 0 if The game hasn't ended yet,
