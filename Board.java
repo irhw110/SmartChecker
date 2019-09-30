@@ -199,7 +199,7 @@ public class Board {
             int moveX = inp.nextInt();
             int moveY = inp.nextInt();
             b.movePawn(currentX, currentY, moveX, moveY);
-            System.outs.println("Giliran sekarang: "+State.WTURN);
+            System.out.println("Giliran sekarang: "+State.WTURN);
             inp.close();
         }
         if (b.isEndGame() == 1) {
