@@ -24,7 +24,7 @@ public class Gameplay {
             b.showBoard();
             ui.updateUI(b);
             Thread.sleep(500);
-            
+            if (b.isEndGame() != 0) break;            
 
             //Black turn, random
             rb.moveRandomly(b);
