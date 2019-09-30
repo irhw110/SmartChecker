@@ -5,6 +5,8 @@ public class Board {
     final int width;
     final int height;
     private int board[][];
+    private ArrayOfPawn whitePawns;
+    private ArrayOfPawn blackPawns;
 
     // Constructor for 8x8 board
     public Board() {
@@ -32,15 +34,12 @@ public class Board {
 
         // Initialize White is going to move first
         State.WTURN = true;
+        whitePawns = new ArrayOfPawn(State.COlORWHITE, 8);
+        blackPawns = new ArrayOfPawn(State.COLORBLACK, 8);
     }
-
+    
     // Check if a move is legal or not
-    public boolean IsLegalMove(int current, int move){
-        // First, we're going to get
-        int x = current/10;
-        int y = current%10;
-        int x1 = move/10;
-        int y1 = move%10;
+    public boolean isLegalMove(int x, int y, int x1, int y1){
         int x2 = 0;
         int y2 = 0;
 
@@ -58,6 +57,10 @@ public class Board {
           y2 = y+1;
         }
 
+        System.out.println("x: "+x+" y: "+y);
+        System.out.println("x1: "+x1+" y1: "+y1);
+        System.out.println("x2: "+x2+" y2: "+y2);
+
         // Check if the x and y index is not out of bound
         if ((x>=0 && x<=7)&&(y>=0 && y<=7) &&
             (x1>=0 && x1<=7)&&(y1>=0 && y1<=7)) {
@@ -68,18 +71,18 @@ public class Board {
                 if (board[x1][y1] == State.NOPAWN) {
                     /* kasus gerak satu langkah */
                     if (Math.abs(x1-x) == 1 && Math.abs(y1-y) == 1) {
-                        if (board[x][y] == State.WHITE && y1>y) {
+                        if (board[x][y] == State.WHITE && x1>x) {
                             return true;
-                        } else if (board[x][y] == State.BLACK && y1<y) {
+                        } else if (board[x][y] == State.BLACK && x1<x) {
                             return true;
                         } else if (board[x][y] == State.BKING || board[x][y] == State.WKING) {
                             return true;
                         }
                     /* kasus makan */
                     } else if (Math.abs(x1-x) == 2 && Math.abs(y1-y) == 2) {
-                        if (board[x][y] == State.WHITE && y1>y && (board[x2][y2] == State.BLACK || board[x2][y2] == State.BKING)) {
+                        if (board[x][y] == State.WHITE && x1>x && (board[x2][y2] == State.BLACK || board[x2][y2] == State.BKING)) {
                             return true;
-                        } else if (board[x][y] == State.BLACK && y1<y && (board[x2][y2] == State.WHITE || board[x2][y2] == State.WKING)) {
+                        } else if (board[x][y] == State.BLACK && x1<x && (board[x2][y2] == State.WHITE || board[x2][y2] == State.WKING)) {
                             return true;
                         } else if (board[x][y] == State.WKING && (board[x2][y2] == State.BLACK || board[x2][y2] == State.BKING)) {
                             return true;
@@ -90,11 +93,63 @@ public class Board {
                 }
             }
         }
+        // if ()
         return false;
     }
 
+    public void movePawn(int x, int y, int x1, int y1) {
+        if (IsLegalMove(x, y, x1, y1)){
+            int x2 = 0;
+            int y2 = 0;
+            /* pengisian x2 dengan diantara x1 dan x untuk kasus selisih abs x dan x1 adalah 2 */
+            if (x1<x) {
+                x2 = x-1;
+            } else if (x1>x) {
+                x2 = x+1;
+            }
+    
+            /* pengisian y2 dengan diantara y1 dan y untuk kasus selisih abs y dan y1 adalah 2 */
+            if (y1<y) {
+                y2 = y-1;
+            } else if (y1>y) {
+                y2 = y+1;
+            }
+
+            // Kasus 1 update nilai
+            if (State.WTURN && (Math.abs(x1-x) == 1 && Math.abs(y1-y) == 1)) {
+                int i = whitePawns.findPawn(x, y);
+                whitePawns.setPawn(i,x1,y1);
+            } else if (!State.WTURN && (Math.abs(x1-x) == 1 && Math.abs(y1-y) == 1)) {
+                int i = blackPawns.findPawn(x, y);
+                blackPawns.setPawn(i,x1,y1);
+            // Kasus 2 hapus nilai
+            } else if (State.WTURN) {
+                int i = whitePawns.findPawn(x, y);
+                whitePawns.setPawn(i,x1,y1);
+                blackPawns.deletePawn(x2,y2);
+                board[x2][y2] = State.NOPAWN;
+            } else {
+                int i = blackPawns.findPawn(x, y);
+                blackPawns.setPawn(i,x1,y1);
+                whitePawns.deletePawn(x2,y2);
+                board[x2][y2] = State.NOPAWN;
+            }
+            // Check if a pawn has reached the edge of the board 
+            if (State.WTURN && x1==7)
+                board[x1][y1] = State.WKING;
+            else if (!State.WTURN && x1==0)
+                board[x1][y1] = State.BKING;
+            else
+                board[x1][y1] = board[x][y];
+            board[x][y] = State.NOPAWN;
+            State.WTURN = !State.WTURN;
+            System.out.println("White: "+whitePawns.getLength());
+            System.out.println("Black: "+blackPawns.getLength());
+        }
+    }
+
     // Show the current checkers board
-    public void ShowBoard(){
+    public void showBoard(){
         for (int i=height-1; i>=0; i--) {
             for (int j=0; j<width; j++) {
                 System.out.print(" "+board[i][j]+" ");
@@ -103,27 +158,54 @@ public class Board {
         }
     }
 
-    public int GetHeight() {
+    public ArrayOfPawn getWhitePawns() {
+        return whitePawns;
+    }
+
+    public ArrayOfPawn getBlackPawns() {
+        return blackPawns;
+    }
+
+    public int getHeight() {
       return this.height;
     }
 
-    public int GetWidth() {
+    public int getWidth() {
       return this.width;
     }
 
-    public int GetPawn(int x, int y) {
+    public int getPawn(int x, int y) {
         return this.board[x][y];
     }
 
+    // return 0 if The game hasn't ended yet,
+    // return 1 if White wins the game
+    // return -1 if Black wins the game
+    public int isEndGame() {
+        if (whitePawns.getLength() == 0)
+            return 1;
+        else if (blackPawns.getLength() == 0)
+            return -1;
+        return 0;
+    }
     // Driver
     public static void main(String args[]) {
         Board b = new Board();
-        b.ShowBoard();
-        int current;
-        int move;
-        Scanner inp = new Scanner(System.in);
-        current = inp.nextInt();
-        move = inp.nextInt();
-        System.out.println(b.IsLegalMove(current, move));
+        while (b.isEndGame() == 0) {
+            b.showBoard();
+            Scanner inp = new Scanner(System.in);
+            int currentX = inp.nextInt();
+            int currentY = inp.nextInt();
+            int moveX = inp.nextInt();
+            int moveY = inp.nextInt();
+            b.movePawn(currentX, currentY, moveX, moveY);
+            System.out.println("Giliran sekarang: "+State.WTURN);
+            inp.close();
+        }
+        if (b.isEndGame() == 1) {
+            System.out.println("Putih menang gan");
+        } else {
+            System.out.println("Hitam menang gan");
+        }
     }
 }
