@@ -1,4 +1,4 @@
-public class Minimax {
+public class AlphaBeta {
     
     final int MAXDEPTH = 3;
 
@@ -8,19 +8,26 @@ public class Minimax {
     private int current_checked_board;
 
 
-    public ChosenMove minimax()   {
+    public ChosenMove alphabeta()   {
         depth=1;
         ChosenMove temp_max= new ChosenMove(); //initialize value with MIN_INTEGER
         ChosenMove[] arrayset;
         ChosenMove temp;
         arrayset=generateAllMove();
+        int alpha= Integer.MIN_VALUE;
+        int beta = Integer.MAX_VALUE;
+
 
         for(int i=0; i < arrayset.length; i++) {
-            temp = find_min_recursive(arrayset[i]);
+            temp = find_min_recursive(arrayset[i],alpha,beta);
             if(temp.value > temp_max.value) {
                 temp_max = temp;
             }
+            alpha = max( alpha, temp_max.value);
+            if (beta <= alpha)
+                break;
         }
+        
         //generate all possible Board
             //for each board assign current_checked_board with generated board
             //find board with highest value and save the Board in current_checked_Board
@@ -28,7 +35,7 @@ public class Minimax {
         return temp_max;
     }
 
-    public ChosenMove find_max_recursive(ChosenMove C)   {
+    public ChosenMove find_max_recursive(ChosenMove C,int alpha,int beta)   {
         
         ChosenMove temp_max= new ChosenMove(); //initialize value with MIN_INTEGER
         ChosenMove[] arrayset;
@@ -40,10 +47,13 @@ public class Minimax {
         if(depth<MAXDEPTH)  {
             
             for(int i=0;i<arrayset.length;i++) {
-                temp = find_min_recursive(arrayset[i]);
+                temp = find_min_recursive(arrayset[i],alpha,beta);
                 if(temp.value > temp_max.value) {
                     temp_max = temp;
                 }
+                alpha = max( alpha, temp_max.value);
+                if (beta <= alpha)
+                    break;
             }
             //generate all possible Board
                 //for each board assign current_checked_board with generated board
@@ -65,7 +75,7 @@ public class Minimax {
         return temp_max;
     }
 
-    public ChosenMove find_min_recursive(ChosenMove C)   {
+    public ChosenMove find_min_recursive(ChosenMove C,int alpha, int beta)   {
         ChosenMove temp_min= new ChosenMove(); //initialize value with MAX_INTEGER
         ChosenMove[] arrayset;
         ChosenMove temp;
@@ -78,24 +88,27 @@ public class Minimax {
             //for all possible move
             //eval find_max_recursive
             //cari min
-            for(int i=0; i<arrayset.length; i++) {
-                temp = find_max_recursive(arrayset[i]);
+            for(int i=0; i < arrayset.length; i++) {
+                temp = find_max_recursive(arrayset[i],alpha,beta);
                 if(temp.value < temp_min.value) {
                     temp_min = temp;
                 }
+                beta = min( beta, temp_min.value);
+                if (beta <= alpha)
+                    break;
             }
         }
         else {
             // Iterate generateAllMoves
             // find min
-            for(int i=0; i<arrayset.length; i++) {
+            for(int i=0; i < arrayset.length; i++) {
                 if(arrayset[i].value < temp_min.value) {
                     temp_min = arrayset[i]; 
                 }
             }
         }
         depth--;
-        
+
         return temp_min;
     }
 
@@ -116,7 +129,6 @@ public class Minimax {
     public ChosenMove[] generateAllMove() {
         return null; 
     }
-    
 
     public static void main(String[] args)  {
         Minimax M = new Minimax();
