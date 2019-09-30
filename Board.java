@@ -38,7 +38,7 @@ public class Board {
     }
 
     public void copy(Board b) {
-        System.out.println("Copy constructor called");
+        // System.out.println("Copy constructor called");
         height = b.height;
         width = b.width;
         for (int i=height-1; i>=0; i--) {
@@ -46,8 +46,12 @@ public class Board {
                 setBoard(i,j,b.getPawn(i,j));
             }
         }
-        whitePawns = b.whitePawns;
-        blackPawns = b.blackPawns;
+        for (int k=0; k<b.whitePawns.getLength(); k++) {
+            whitePawns.setPawn(k,b.whitePawns.getXFrom(k),b.whitePawns.getYFrom(k));
+        }
+        for (int l=0; l<b.whitePawns.getLength(); l++) {
+            blackPawns.setPawn(l,b.blackPawns.getXFrom(l),b.blackPawns.getYFrom(l));
+        }
     }
 
     public int[] SplitMove(int move){
@@ -149,7 +153,7 @@ public class Board {
                 whitePawns.deletePawn(x2,y2);
                 board[x2][y2] = State.NOPAWN;
             }
-            // Check if a pawn has reached the edge of the board 
+            // Check if a pawn has reached the edge of the board
             if (State.WTURN && x1==7) {
                 board[x1][y1] = State.WKING;
                 int i = whitePawns.findPawn(x1, y1);
@@ -161,7 +165,7 @@ public class Board {
             } else {
                 board[x1][y1] = board[x][y];
             }
-            
+
             board[x][y] = State.NOPAWN;
             State.WTURN = !State.WTURN;
         }

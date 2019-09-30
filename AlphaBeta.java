@@ -134,9 +134,9 @@ public class AlphaBeta {
         ArrayList<ChosenMove> arrli = new ArrayList<ChosenMove>();
         if (State.WTURN) {
             for (int i=0; i<b.getWhitePawns().getLength(); i++) {
-                Board btemp = new Board();
                 for (int j=0; j<8; j++) {
                     int[] move = RandomBot.moveTo(b.getWhitePawns().getXFrom(i),b.getWhitePawns().getYFrom(i),j);
+                    Board btemp = new Board();
                     btemp.copy(b);
                     if (b.isLegalMove(b.getWhitePawns().getXFrom(i),b.getWhitePawns().getYFrom(i), move[0], move[1])) {
                         btemp.movePawn(b.getWhitePawns().getXFrom(i),b.getWhitePawns().getYFrom(i), move[0], move[1]);
@@ -151,8 +151,8 @@ public class AlphaBeta {
                 for (int j=0; j<8; j++) {
                     int[] move = RandomBot.moveTo(b.getBlackPawns().getXFrom(i),b.getBlackPawns().getYFrom(i),j);
                     Board btemp = new Board();
+                    btemp.copy(b);
                     if (b.isLegalMove(b.getBlackPawns().getXFrom(i),b.getBlackPawns().getYFrom(i), move[0], move[1])) {
-                        btemp.copy(b);
                         btemp.movePawn(b.getBlackPawns().getXFrom(i),b.getBlackPawns().getYFrom(i), move[0], move[1]);
                         int eval = Eval.EvalBoard(btemp);
                         ChosenMove c1 = new ChosenMove(i,j,eval);
@@ -168,9 +168,9 @@ public class AlphaBeta {
         // Minimax M = new Minimax();
         Board b = new Board();
         b.showBoard();
-        // ArrayList<ChosenMove> arrli = AlphaBeta.generateAllMove(b);
-        // ChosenMove c1 = new ChosenMove(arrli.get(0));
+        ArrayList<ChosenMove> arrli = AlphaBeta.generateAllMove(b);
         // System.out.println(arrli.size());
-        // c1.printIdPawn();
+        arrli.get(6).printIdPawn();
+        arrli.get(6).printMove();
     }
 }

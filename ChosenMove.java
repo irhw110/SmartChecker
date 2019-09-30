@@ -25,4 +25,8 @@ public class ChosenMove {
     public void printIdPawn() {
         System.out.println("idpawn " + this.idpawn);
     }
+
+    public void printMove() {
+        System.out.println("move " + this.move);
+    }
 }
