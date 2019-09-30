@@ -34,6 +34,7 @@ public class Board {
         State.WTURN = true;
     }
 
+    
     // Check if a move is legal or not
     public boolean IsLegalMove(int current, int move){
         // First, we're going to get 
@@ -55,10 +56,13 @@ public class Board {
                 }
             }
         }
+        // if ()
         return false;
     }
 
-    // function boolean IsCanEat()
+    boolean IsCanEat() {
+
+    }
 
     // Show the current checkers board
     public void ShowBoard(){
