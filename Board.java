@@ -1,5 +1,4 @@
 import java.lang.Math;
-import java.util.Scanner;
 
 public class Board {
     final int width;
@@ -46,13 +45,7 @@ public class Board {
 
 
     // Check if a move is legal or not
-    public boolean IsLegalMove(int current, int move){
-        int[] arrCurrent = SplitMove(current);
-        int x = arrCurrent[0];
-        int y = arrCurrent[1];
-        int[] moveCurrent = SplitMove(move);
-        int x1 = moveCurrent[0];
-        int y1 = moveCurrent[1];
+    public boolean isLegalMove(int x, int y, int x1, int y1){
         int x2 = 0;
         int y2 = 0;
 
@@ -69,10 +62,6 @@ public class Board {
         } else if (y1>y) {
           y2 = y+1;
         }
-
-        System.out.println("x: "+x+" y: "+y);
-        System.out.println("x1: "+x1+" y1: "+y1);
-        System.out.println("x2: "+x2+" y2: "+y2);
 
         // Check if the x and y index is not out of bound
         if ((x>=0 && x<=7)&&(y>=0 && y<=7) &&
@@ -110,14 +99,8 @@ public class Board {
         return false;
     }
 
-    public void MovePawn(int current,int target) {
-        int[] arrCurrent = SplitMove(current);
-        int x = arrCurrent[0];
-        int y = arrCurrent[1];
-        int[] moveCurrent = SplitMove(target);
-        int x1 = moveCurrent[0];
-        int y1 = moveCurrent[1];
-        if (IsLegalMove(current, target)){
+    public void movePawn(int x, int y, int x1, int y1) {
+        if (isLegalMove(x, y, x1, y1)){
             int x2 = 0;
             int y2 = 0;
             /* pengisian x2 dengan diantara x1 dan x untuk kasus selisih abs x dan x1 adalah 2 */
@@ -162,13 +145,11 @@ public class Board {
                 board[x1][y1] = board[x][y];
             board[x][y] = State.NOPAWN;
             State.WTURN = !State.WTURN;
-            System.out.println("White: "+whitePawns.getLength());
-            System.out.println("Black: "+blackPawns.getLength());
         }
     }
 
     // Show the current checkers board
-    public void ShowBoard(){
+    public void showBoard(){
         for (int i=height-1; i>=0; i--) {
             for (int j=0; j<width; j++) {
                 System.out.print(" "+board[i][j]+" ");
@@ -177,15 +158,23 @@ public class Board {
         }
     }
 
-    public int GetHeight() {
+    public ArrayOfPawn getWhitePawns() {
+        return whitePawns;
+    }
+
+    public ArrayOfPawn getBlackPawns() {
+        return blackPawns;
+    }
+
+    public int getHeight() {
       return this.height;
     }
 
-    public int GetWidth() {
+    public int getWidth() {
       return this.width;
     }
 
-    public int GetPawn(int x, int y) {
+    public int getPawn(int x, int y) {
         return this.board[x][y];
     }
 
@@ -196,31 +185,11 @@ public class Board {
     // return 0 if The game hasn't ended yet,
     // return 1 if White wins the game
     // return -1 if Black wins the game
-    public int IsEndGame() {
+    public int isEndGame() {
         if (whitePawns.getLength() == 0)
             return 1;
         else if (blackPawns.getLength() == 0)
             return -1;
         return 0;
-    }
-    // Driver
-    public static void main(String args[]) {
-        Board b = new Board();
-        while (b.IsEndGame() == 0) {
-            b.ShowBoard();
-            int current;
-            int move;
-            Scanner inp = new Scanner(System.in);
-            current = inp.nextInt();
-            move = inp.nextInt();
-            b.MovePawn(current, move);
-            System.out.println("Giliran sekarang: "+State.WTURN);
-            inp.close();
-        }
-        if (b.IsEndGame() == 1) {
-            System.out.println("Putih menang gan");
-        } else {
-            System.out.println("Hitam menang gan");
-        }
     }
 }

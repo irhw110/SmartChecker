@@ -62,6 +62,14 @@ public class ArrayOfPawn{
         return result;
     }
 
+    public int getXFrom(int i) {
+        return array[i].getX();
+    }
+
+    public int getYFrom(int i) {
+        return array[i].getY();
+    }
+
     public void deletePawn(int x, int y){
         int idxPawnWillDeleted = findPawn(x, y);
         if(idxPawnWillDeleted == this.length){
