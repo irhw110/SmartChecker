@@ -89,6 +89,10 @@ public class ArrayOfPawn{
         this.array[i].setY(y);
     }
 
+    public void setPawnState(int i, int state) {
+        this.array[i].setState(state);
+    }
+
     public int getLength() {
         return length;
     }
