@@ -33,7 +33,7 @@ public class Board {
         }
 
         // Initialize White is going to move first
-        WTURN = true;
+        this.WTURN = true;
         whitePawns = new ArrayOfPawn(State.COlORWHITE, 8);
         blackPawns = new ArrayOfPawn(State.COLORBLACK, 8);
     }
@@ -53,6 +53,7 @@ public class Board {
         for (int l=0; l<b.whitePawns.getLength(); l++) {
             blackPawns.setPawn(l,b.blackPawns.getXFrom(l),b.blackPawns.getYFrom(l));
         }
+        WTURN = b.getWTURN(); 
     }
 
     public int[] SplitMove(int move){

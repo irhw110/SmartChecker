@@ -9,10 +9,11 @@ public class GameplayAlphaBeta {
         
         UI ui = new UI();
         ui.updateUI(b);
+        System.out.println("Giliran sekarang: "+b.getWTURN());
         while (b.isEndGame() == 0) {
 
             // White turn, player
-            System.out.println("Giliran sekarang: "+b.getWTURN());
+            
             Scanner inp = new Scanner(System.in);
             int currentX, currentY, moveX, moveY;
             do {
@@ -22,6 +23,7 @@ public class GameplayAlphaBeta {
                 moveY = inp.nextInt();
             } while (!b.isLegalMove(currentX, currentY, moveX, moveY));
             b.movePawn(currentX, currentY, moveX, moveY);
+            System.out.println("Giliran sekarang: "+b.getWTURN());
             ui.updateUI(b);
             Thread.sleep(500);
             if (b.isEndGame() != 0) break;    
@@ -30,8 +32,8 @@ public class GameplayAlphaBeta {
             //Black turn, alphabeta
             ctemp.CopyChosenMove(ab.alphabeta(b));
             
-            System.out.println("Move pilihan "+b.getBlackPawns().getXFrom(ctemp.idpawn) +" "+b.getBlackPawns().getYFrom(ctemp.idpawn)+" "+ctemp.move);
             int[] move = RandomBot.moveTo(b.getBlackPawns().getXFrom(ctemp.idpawn),b.getBlackPawns().getYFrom(ctemp.idpawn),ctemp.move);
+            System.out.println("move pilihan "+b.getBlackPawns().getXFrom(ctemp.idpawn) +" "+b.getBlackPawns().getYFrom(ctemp.idpawn)+" "+move[0]+" "+move[1]);
             b.movePawn(b.getBlackPawns().getXFrom(ctemp.idpawn),b.getBlackPawns().getYFrom(ctemp.idpawn), move[0], move[1]);
 
             System.out.println("Giliran sekarang: "+b.getWTURN());

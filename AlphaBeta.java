@@ -29,14 +29,15 @@ public class AlphaBeta {
         int alpha= Integer.MIN_VALUE;
         int beta = Integer.MAX_VALUE;
         arrayset = generateAllMove(btemp[neff]);
+        System.out.println("Generate all move dalam AB: "+btemp[neff].getWTURN());
 
         for(int i=0; i < arrayset.size(); i++) {
             System.out.println(i);
-            temp.CopyChosenMove(find_min_recursive(arrayset.get(i)));
+            temp.CopyChosenMove(find_max_recursive(arrayset.get(i)));
             // System.out.println("move "+btemp[neff].getBlackPawns().getXFrom(temp.idpawn) +" "+btemp[neff].getBlackPawns().getYFrom(temp.idpawn)+" "+temp.move);
             int x1 = btemp[neff].getBlackPawns().getXFrom(temp.idpawn);
             int x2 = btemp[neff].getBlackPawns().getYFrom(temp.idpawn);
-            System.out.println("move "+btemp[neff].getBlackPawns().getXFrom(temp.idpawn) +" "+btemp[neff].getBlackPawns().getYFrom(temp.idpawn)+" "+RandomBot.moveTo(x1,x2,temp.move)[0]+" "+RandomBot.moveTo(x1,x2,temp.move)[1]);
+            System.out.println("Ini move AB "+btemp[neff].getBlackPawns().getXFrom(temp.idpawn) +" "+btemp[neff].getBlackPawns().getYFrom(temp.idpawn)+" "+RandomBot.moveTo(x1,x2,temp.move)[0]+" "+RandomBot.moveTo(x1,x2,temp.move)[1]);
             System.out.println("nilai "+temp.value);
             if(temp.value > temp_max.value) {
                 temp_max.CopyChosenMove(temp);
@@ -63,6 +64,7 @@ public class AlphaBeta {
         ArrayList<ChosenMove> arrayset;
         ChosenMove temp = new ChosenMove(0,0,0);
         arrayset = generateAllMove(btemp[neff]);
+        System.out.println("Generate all move dalam max: "+btemp[neff].getWTURN());
 
         depth++;
 
@@ -71,7 +73,9 @@ public class AlphaBeta {
 
             for(int i=0;i<arrayset.size();i++) {
                 temp.CopyChosenMove(find_min_recursive(arrayset.get(i)));
-                System.out.println("move "+btemp[neff].getBlackPawns().getXFrom(temp.idpawn) +" "+btemp[neff].getBlackPawns().getYFrom(temp.idpawn)+" "+temp.move);
+                int x1 = btemp[neff].getBlackPawns().getXFrom(temp.idpawn);
+                int x2 = btemp[neff].getBlackPawns().getYFrom(temp.idpawn);
+                System.out.println("Ini move max "+btemp[neff].getBlackPawns().getXFrom(temp.idpawn) +" "+btemp[neff].getBlackPawns().getYFrom(temp.idpawn)+" "+RandomBot.moveTo(x1,x2,temp.move)[0]+" "+RandomBot.moveTo(x1,x2,temp.move)[1]);
                 System.out.println(temp.value);
                 if(temp.value > temp_max.value) {
                     temp_max.CopyChosenMove(temp);
@@ -114,7 +118,9 @@ public class AlphaBeta {
         if(depth<MAXDEPTH)  {
             for(int i=0; i < arrayset.size(); i++) {
                 temp.CopyChosenMove(find_max_recursive(arrayset.get(i)));
-                System.out.println("move "+btemp[neff].getBlackPawns().getXFrom(temp.idpawn) +" "+btemp[neff].getBlackPawns().getYFrom(temp.idpawn)+" "+temp.move);
+                int x1 = btemp[neff].getWhitePawns().getXFrom(temp.idpawn);
+                int x2 = btemp[neff].getWhitePawns().getYFrom(temp.idpawn);
+                System.out.println("Ini move min "+btemp[neff].getWhitePawns().getXFrom(temp.idpawn) +" "+btemp[neff].getWhitePawns().getYFrom(temp.idpawn)+" "+RandomBot.moveTo(x1,x2,temp.move)[0]+" "+RandomBot.moveTo(x1,x2,temp.move)[1]);
                 System.out.println(temp.value);
                 if(temp.value < temp_min.value) {
                     temp_min.CopyChosenMove(temp);
@@ -152,10 +158,19 @@ public class AlphaBeta {
     }
 
     public Board BoardAfterMove(Board b,ChosenMove c){
-        int[] move = RandomBot.moveTo(b.getWhitePawns().getXFrom(c.idpawn),b.getWhitePawns().getYFrom(c.idpawn),c.move);
+        // int[] move = RandomBot.moveTo(b.getWhitePawns().getXFrom(c.idpawn),b.getWhitePawns().getYFrom(c.idpawn),c.move);
+        // Board bb = new Board();
+        // bb.movePawn(b.getWhitePawns().getXFrom(c.idpawn),b.getWhitePawns().getYFrom(c.idpawn), move[0], move[1]);
+        // b.setWTURN(); 
         Board bb = new Board();
-        bb.movePawn(b.getWhitePawns().getXFrom(c.idpawn),b.getWhitePawns().getYFrom(c.idpawn), move[0], move[1]);
-        b.setWTURN(); 
+        bb.copy(b);
+        if (bb.getWTURN()) {
+            int[] move = RandomBot.moveTo(bb.getWhitePawns().getXFrom(c.idpawn),bb.getWhitePawns().getYFrom(c.idpawn),c.move);
+            bb.movePawn(bb.getWhitePawns().getXFrom(c.idpawn),bb.getWhitePawns().getYFrom(c.idpawn), move[0], move[1]);
+        } else {
+            int[] move = RandomBot.moveTo(bb.getBlackPawns().getXFrom(c.idpawn),bb.getBlackPawns().getYFrom(c.idpawn),c.move);
+            bb.movePawn(bb.getBlackPawns().getXFrom(c.idpawn),bb.getBlackPawns().getYFrom(c.idpawn), move[0], move[1]);
+        }
         return bb; 
     }
 
@@ -199,11 +214,13 @@ public class AlphaBeta {
         b.showBoard();
         ArrayList<ChosenMove> c1= AlphaBeta.generateAllMove(b);
         // System.out.println(c1.size());
-        System.out.println(b.getBlackPawns().getXFrom(c1.get(6).idpawn));
-        System.out.println(b.getBlackPawns().getYFrom(c1.get(6).idpawn));
-        int[] move = RandomBot.moveTo(b.getBlackPawns().getXFrom(c1.get(6).idpawn),b.getBlackPawns().getYFrom(c1.get(6).idpawn),c1.get(6).move);
-        System.out.println(move[0]+" y"+ move[1]);
-        // c1.get(0).printMove();
-        // System.out.println(b.isLegalMove(b.getBlackPawns().getXFrom(c1.get(0).idpawn),b.getBlackPawns().getYFrom(c1.get(0).idpawn), move[0], move[1]));
+        for (int i=0; i<c1.size(); i++) {
+            System.out.println("posisi x: "+b.getBlackPawns().getXFrom(c1.get(i).idpawn));
+            System.out.println("posisi y: "+b.getBlackPawns().getYFrom(c1.get(i).idpawn));
+            int[] move = RandomBot.moveTo(b.getBlackPawns().getXFrom(c1.get(i).idpawn),b.getBlackPawns().getYFrom(c1.get(i).idpawn),c1.get(i).move);
+            System.out.println("berpindah ke x: "+move[0]+" y: "+ move[1]);
+            // c1.get(0).printMove();
+            // System.out.println(b.isLegalMove(b.getBlackPawns().getXFrom(c1.get(0).idpawn),b.getBlackPawns().getYFrom(c1.get(0).idpawn), move[0], move[1]))    
+        }
     }
 }
