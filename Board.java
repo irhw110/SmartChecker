@@ -50,7 +50,7 @@ public class Board {
         for (int k=0; k<b.whitePawns.getLength(); k++) {
             whitePawns.setPawn(k,b.whitePawns.getXFrom(k),b.whitePawns.getYFrom(k));
         }
-        for (int l=0; l<b.whitePawns.getLength(); l++) {
+        for (int l=0; l<b.blackPawns.getLength(); l++) {
             blackPawns.setPawn(l,b.blackPawns.getXFrom(l),b.blackPawns.getYFrom(l));
         }
         this.WTURN = b.getWTURN(); 

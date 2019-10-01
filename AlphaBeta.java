@@ -22,6 +22,9 @@ public class AlphaBeta {
         }
         neff=0;
         btemp[neff].copy(b);
+
+        int index=0;
+
         ChosenMove temp_max= new ChosenMove(0,0,Integer.MIN_VALUE); //initialize value with MIN_INTEGER
         ArrayList<ChosenMove> arrayset;
         ChosenMove temp = new ChosenMove(0,0,0);
@@ -36,12 +39,13 @@ public class AlphaBeta {
             System.out.println("Iterasi ke: "+i);
             temp.CopyChosenMove(find_min_recursive(arrayset.get(i)));
             // System.out.println("move "+btemp[neff].getBlackPawns().getXFrom(temp.idpawn) +" "+btemp[neff].getBlackPawns().getYFrom(temp.idpawn)+" "+temp.move);
-            int x1 = btemp[neff].getBlackPawns().getXFrom(temp.idpawn);
-            int x2 = btemp[neff].getBlackPawns().getYFrom(temp.idpawn);
-            System.out.println("Ini move depth 1 "+btemp[neff].getBlackPawns().getXFrom(temp.idpawn) +" "+btemp[neff].getBlackPawns().getYFrom(temp.idpawn)+" "+RandomBot.moveTo(x1,x2,temp.move)[0]+" "+RandomBot.moveTo(x1,x2,temp.move)[1]);
-            System.out.println("nilai "+temp.value);
+           
+            // int x1 = btemp[neff].getBlackPawns().getXFrom(temp.idpawn);
+            // int x2 = btemp[neff].getBlackPawns().getYFrom(temp.idpawn);
+            // System.out.println("Ini move depth 1 "+btemp[neff].getBlackPawns().getXFrom(temp.idpawn) +" "+btemp[neff].getBlackPawns().getYFrom(temp.idpawn)+" "+RandomBot.moveTo(x1,x2,temp.move)[0]+" "+RandomBot.moveTo(x1,x2,temp.move)[1]);
+            // System.out.println("nilai "+temp.value);
             if(temp.value > temp_max.value) {
-                temp_max.CopyChosenMove(temp);
+                index=i;
             }
             alpha = max( alpha, temp_max.value);
             if (beta <= alpha) {
@@ -55,7 +59,7 @@ public class AlphaBeta {
             //find board with highest value and save the Board in current_checked_Board
         //kayaknya harus generate all possible move di file ini
         
-        return temp_max;
+        return arrayset.get(index);
     }
 
     public ChosenMove find_max_recursive(ChosenMove C)   {
@@ -63,6 +67,8 @@ public class AlphaBeta {
         // System.out.println("Generate all move dalam max yg mau dicopy: "+btemp[neff].getWTURN());
         // System.out.println("Generate all move dalam max result1: "+btemp[neff+1].getWTURN());
         neff++;
+
+        int index=0;
         
         ChosenMove temp_max= new ChosenMove(0,0,Integer.MIN_VALUE); //initialize value with MIN_INTEGER
         ArrayList<ChosenMove> arrayset;
@@ -83,7 +89,7 @@ public class AlphaBeta {
                 
                 
                 if(temp.value > temp_max.value) {
-                    temp_max.CopyChosenMove(temp);
+                    index = i;
                 }
                 alpha = max( alpha, temp_max.value);
                 if (beta <= alpha)
@@ -98,7 +104,7 @@ public class AlphaBeta {
         else {
             for(int i=0;i<arrayset.size();i++) {
                 if(arrayset.get(i).value > temp_max.value) {
-                    temp_max.CopyChosenMove(arrayset.get(i));
+                    index=i;
                 }
             }
             // Iterate generateAllMoves
@@ -113,7 +119,7 @@ public class AlphaBeta {
         System.out.println("Ini pilihan move max "+btemp[neff].getBlackPawns().getXFrom(temp_max.idpawn) +" "+btemp[neff].getBlackPawns().getYFrom(temp_max.idpawn)+" "+RandomBot.moveTo(x1,x2,temp_max.move)[0]+" "+RandomBot.moveTo(x1,x2,temp_max.move)[1]);
                 System.out.println(temp_max.value);
 neff--;
-        return temp_max;
+        return arrayset.get(index);
     }
 
     public ChosenMove find_min_recursive(ChosenMove C)   {
@@ -127,6 +133,8 @@ neff--;
         depth++;
         System.out.println(depth + " -min " + btemp[neff].getWTURN());
         btemp[neff].showBoard();
+
+        int index=0;
         
         arrayset = generateAllMove(btemp[neff]);
 
@@ -137,7 +145,7 @@ neff--;
                 
                 
                 if(temp.value < temp_min.value) {
-                    temp_min.CopyChosenMove(temp);
+                    index=i;
                 }
                 beta = min( beta, temp_min.value);
                 if (beta <= alpha)
@@ -147,7 +155,7 @@ neff--;
         else {
             for(int i=0; i < arrayset.size(); i++) {
                 if(arrayset.get(i).value < temp_min.value) {
-                    temp_min.CopyChosenMove(arrayset.get(i));
+                    index=i;
                 }
             }
         }
@@ -160,7 +168,7 @@ neff--;
         System.out.println("Ini move min "+btemp[neff].getWhitePawns().getXFrom(temp_min.idpawn) +" "+btemp[neff].getWhitePawns().getYFrom(temp_min.idpawn)+" "+RandomBot.moveTo(x1,x2,temp_min.move)[0]+" "+RandomBot.moveTo(x1,x2,temp_min.move)[1]);
                 System.out.println(temp_min.move);
 neff--;
-        return temp_min;
+        return arrayset.get(index);
     }
 
     public int max(int a,int b)    {
