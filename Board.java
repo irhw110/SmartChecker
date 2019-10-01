@@ -211,10 +211,22 @@ public class Board {
     // return 1 if White wins the game
     // return -1 if Black wins the game
     public int isEndGame() {
+        // Black win, white pawns run out
         if (whitePawns.getLength() == 0)
-            return 1;
-        else if (blackPawns.getLength() == 0)
             return -1;
+        // White win, black pawns run out
+        else if (blackPawns.getLength() == 0)
+            return 1;
+        // No possible moves
+        if (AlphaBeta.generateAllMove(this).size() == 0) {
+            // Black win
+            if (WTURN)
+                return -1;
+            else
+                return 1;
+        }
+                    
+
         return 0;
     }
 
