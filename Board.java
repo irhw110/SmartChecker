@@ -32,7 +32,7 @@ public class Board {
         }
 
         // Initialize White is going to move first
-        State.WTURN = true;
+        
         whitePawns = new ArrayOfPawn(State.COlORWHITE, 8);
         blackPawns = new ArrayOfPawn(State.COLORBLACK, 8);
     }

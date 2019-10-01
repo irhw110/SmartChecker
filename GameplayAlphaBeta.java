@@ -6,12 +6,14 @@ public class GameplayAlphaBeta {
         AlphaBeta ab = new AlphaBeta();
         ChosenMove ctemp= new ChosenMove(0,0,0);
         b.showBoard();
+
         
         UI ui = new UI();
         ui.updateUI(b);
         while (b.isEndGame() == 0) {
 
             // White turn, player
+            State.WTURN = true;
             System.out.println("Giliran sekarang: "+State.WTURN);
             Scanner inp = new Scanner(System.in);
             int currentX, currentY, moveX, moveY;
@@ -24,12 +26,15 @@ public class GameplayAlphaBeta {
             b.movePawn(currentX, currentY, moveX, moveY);
             ui.updateUI(b);
             Thread.sleep(500);
-            if (b.isEndGame() != 0) break;    
+            if (b.isEndGame() != 0) break;
+                
                    
 
             //Black turn, alphabeta
+            System.out.println(" wturn 2 " +State.WTURN);
             ctemp.CopyChosenMove(ab.alphabeta(b));
-            
+            System.out.println(" wturn 3 " +State.WTURN);
+
             System.out.println("Move pilihan "+b.getBlackPawns().getXFrom(ctemp.idpawn) +" "+b.getBlackPawns().getYFrom(ctemp.idpawn)+" "+ctemp.move);
             int[] move = RandomBot.moveTo(b.getBlackPawns().getXFrom(ctemp.idpawn),b.getBlackPawns().getYFrom(ctemp.idpawn),ctemp.move);
             b.movePawn(b.getBlackPawns().getXFrom(ctemp.idpawn),b.getBlackPawns().getYFrom(ctemp.idpawn), move[0], move[1]);
