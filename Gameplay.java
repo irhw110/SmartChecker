@@ -23,7 +23,7 @@ public class Gameplay {
         
         UI ui = new UI();
         ui.updateUI(b);
-        // Thread.sleep(500);
+        Thread.sleep(1000);
         while (b.isEndGame() == 0) {
 
             // Player 1 turn
@@ -40,6 +40,14 @@ public class Gameplay {
                     b.movePawn(currentX, currentY, moveX, moveY);
                     break;
                 case 2:
+                    AlphaBeta ab = new AlphaBeta();
+                    ChosenMove ctemp= new ChosenMove(0,0,0);
+                    ctemp.CopyChosenMove(ab.alphabeta(b));
+                
+                    int[] move = RandomBot.moveTo(b.getBlackPawns().getXFrom(ctemp.idpawn),b.getBlackPawns().getYFrom(ctemp.idpawn),ctemp.move);
+                    b.movePawn(b.getBlackPawns().getXFrom(ctemp.idpawn),b.getBlackPawns().getYFrom(ctemp.idpawn), move[0], move[1]);
+        
+                    break;
                     break;
                 case 3:
                     RandomBot rb = new RandomBot();
@@ -48,7 +56,7 @@ public class Gameplay {
             }
             b.showBoard();
             ui.updateUI(b);
-            // Thread.sleep(500);
+            Thread.sleep(1000);
             if (b.isEndGame() != 0) break;  
 
             // Player 2 turn
@@ -79,7 +87,7 @@ public class Gameplay {
                     break;
             }
             ui.updateUI(b);
-            // Thread.sleep(500);
+            Thread.sleep(1000);
 
         }
         if (b.isEndGame() == 1) {
