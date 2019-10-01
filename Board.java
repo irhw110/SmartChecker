@@ -162,8 +162,8 @@ public class Board {
                 whitePawns.setPawnState(i, State.WKING);
             } else if (!WTURN && x1==0) {
                 board[x1][y1] = State.BKING;
-                int i = whitePawns.findPawn(x1, y1);
-                whitePawns.setPawnState(i, State.BKING);
+                int i = blackPawns.findPawn(x1, y1);
+                blackPawns.setPawnState(i, State.BKING);
             } else {
                 board[x1][y1] = board[x][y];
             }
