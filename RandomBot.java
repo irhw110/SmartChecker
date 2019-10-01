@@ -18,7 +18,7 @@ public class RandomBot {
 
         do {
             int move = randMove.nextInt(8);
-            if (State.WTURN) {
+            if (b.getWTURN()) {
                 ArrayOfPawn whitePawns = b.getWhitePawns();
                 idx = randIdx.nextInt(whitePawns.getLength());
                 x = whitePawns.getXFrom(idx);

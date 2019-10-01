@@ -33,7 +33,10 @@ public class AlphaBeta {
         for(int i=0; i < arrayset.size(); i++) {
             System.out.println(i);
             temp.CopyChosenMove(find_min_recursive(arrayset.get(i)));
-            System.out.println("move "+btemp[neff].getBlackPawns().getXFrom(temp.idpawn) +" "+btemp[neff].getBlackPawns().getYFrom(temp.idpawn)+" "+temp.move);
+            // System.out.println("move "+btemp[neff].getBlackPawns().getXFrom(temp.idpawn) +" "+btemp[neff].getBlackPawns().getYFrom(temp.idpawn)+" "+temp.move);
+            int x1 = btemp[neff].getBlackPawns().getXFrom(temp.idpawn);
+            int x2 = btemp[neff].getBlackPawns().getYFrom(temp.idpawn);
+            System.out.println("move "+btemp[neff].getBlackPawns().getXFrom(temp.idpawn) +" "+btemp[neff].getBlackPawns().getYFrom(temp.idpawn)+" "+RandomBot.moveTo(x1,x2,temp.move)[0]+" "+RandomBot.moveTo(x1,x2,temp.move)[1]);
             System.out.println("nilai "+temp.value);
             if(temp.value > temp_max.value) {
                 temp_max.CopyChosenMove(temp);
@@ -152,13 +155,13 @@ public class AlphaBeta {
         int[] move = RandomBot.moveTo(b.getWhitePawns().getXFrom(c.idpawn),b.getWhitePawns().getYFrom(c.idpawn),c.move);
         Board bb = new Board();
         bb.movePawn(b.getWhitePawns().getXFrom(c.idpawn),b.getWhitePawns().getYFrom(c.idpawn), move[0], move[1]);
-        State.WTURN=!State.WTURN;
+        b.setWTURN(); 
         return bb; 
     }
 
     public static ArrayList<ChosenMove> generateAllMove(Board b) {
         ArrayList<ChosenMove> arrli = new ArrayList<ChosenMove>();
-        if (State.WTURN == true) {
+        if (b.getWTURN()) {
             for (int i=0; i<b.getWhitePawns().getLength(); i++) {
                 for (int j=0; j<8; j++) {
                     int[] move = RandomBot.moveTo(b.getWhitePawns().getXFrom(i),b.getWhitePawns().getYFrom(i),j);

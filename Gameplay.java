@@ -11,7 +11,7 @@ public class Gameplay {
         while (b.isEndGame() == 0) {
 
             // White turn, player
-            System.out.println("Giliran sekarang: "+State.WTURN);
+            System.out.println("Giliran sekarang: "+b.getWTURN());
             Scanner inp = new Scanner(System.in);
             int currentX, currentY, moveX, moveY;
             do {
@@ -28,7 +28,7 @@ public class Gameplay {
 
             //Black turn, random
             rb.moveRandomly(b);
-            System.out.println("Giliran sekarang: "+State.WTURN);
+            System.out.println("Giliran sekarang: "+b.getWTURN());
             b.showBoard();
             ui.updateUI(b);
         }

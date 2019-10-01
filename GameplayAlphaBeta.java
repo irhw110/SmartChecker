@@ -12,7 +12,7 @@ public class GameplayAlphaBeta {
         while (b.isEndGame() == 0) {
 
             // White turn, player
-            System.out.println("Giliran sekarang: "+State.WTURN);
+            System.out.println("Giliran sekarang: "+b.getWTURN());
             Scanner inp = new Scanner(System.in);
             int currentX, currentY, moveX, moveY;
             do {
@@ -34,7 +34,7 @@ public class GameplayAlphaBeta {
             int[] move = RandomBot.moveTo(b.getBlackPawns().getXFrom(ctemp.idpawn),b.getBlackPawns().getYFrom(ctemp.idpawn),ctemp.move);
             b.movePawn(b.getBlackPawns().getXFrom(ctemp.idpawn),b.getBlackPawns().getYFrom(ctemp.idpawn), move[0], move[1]);
 
-            System.out.println("Giliran sekarang: "+State.WTURN);
+            System.out.println("Giliran sekarang: "+b.getWTURN());
             b.showBoard();
             ui.updateUI(b);
         }

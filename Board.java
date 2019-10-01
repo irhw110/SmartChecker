@@ -6,6 +6,7 @@ public class Board {
     private int board[][];
     private ArrayOfPawn whitePawns;
     private ArrayOfPawn blackPawns;
+    private boolean WTURN;
 
     // Constructor for 8x8 board
     public Board() {
@@ -32,7 +33,7 @@ public class Board {
         }
 
         // Initialize White is going to move first
-        State.WTURN = true;
+        WTURN = true;
         whitePawns = new ArrayOfPawn(State.COlORWHITE, 8);
         blackPawns = new ArrayOfPawn(State.COLORBLACK, 8);
     }
@@ -84,8 +85,8 @@ public class Board {
         if ((x>=0 && x<=7)&&(y>=0 && y<=7) &&
             (x1>=0 && x1<=7)&&(y1>=0 && y1<=7)) {
             // Check if the player is choosing the right pawn
-            if (((board[x][y] == State.WHITE || board[x][y] == State.WKING) && State.WTURN) ||
-                ((board[x][y] == State.BLACK || board[x][y] == State.BKING) && !State.WTURN)) {
+            if (((board[x][y] == State.WHITE || board[x][y] == State.WKING) && WTURN) ||
+                ((board[x][y] == State.BLACK || board[x][y] == State.BKING) && !WTURN)) {
                 // Check whether the move state is empty or not
                 if (board[x1][y1] == State.NOPAWN) {
                     /* kasus gerak satu langkah */
@@ -135,14 +136,14 @@ public class Board {
             }
 
             // Kasus 1 update nilai
-            if (State.WTURN && (Math.abs(x1-x) == 1 && Math.abs(y1-y) == 1)) {
+            if (WTURN && (Math.abs(x1-x) == 1 && Math.abs(y1-y) == 1)) {
                 int i = whitePawns.findPawn(x, y);
                 whitePawns.setPawn(i,x1,y1);
-            } else if (!State.WTURN && (Math.abs(x1-x) == 1 && Math.abs(y1-y) == 1)) {
+            } else if (!WTURN && (Math.abs(x1-x) == 1 && Math.abs(y1-y) == 1)) {
                 int i = blackPawns.findPawn(x, y);
                 blackPawns.setPawn(i,x1,y1);
             // Kasus 2 hapus nilai
-            } else if (State.WTURN) {
+            } else if (WTURN) {
                 int i = whitePawns.findPawn(x, y);
                 whitePawns.setPawn(i,x1,y1);
                 blackPawns.deletePawn(x2,y2);
@@ -154,11 +155,11 @@ public class Board {
                 board[x2][y2] = State.NOPAWN;
             }
             // Check if a pawn has reached the edge of the board
-            if (State.WTURN && x1==7) {
+            if (WTURN && x1==7) {
                 board[x1][y1] = State.WKING;
                 int i = whitePawns.findPawn(x1, y1);
                 whitePawns.setPawnState(i, State.WKING);
-            } else if (!State.WTURN && x1==0) {
+            } else if (!WTURN && x1==0) {
                 board[x1][y1] = State.BKING;
                 int i = whitePawns.findPawn(x1, y1);
                 whitePawns.setPawnState(i, State.BKING);
@@ -167,7 +168,7 @@ public class Board {
             }
 
             board[x][y] = State.NOPAWN;
-            State.WTURN = !State.WTURN;
+            WTURN = !WTURN;
         }
     }
 
@@ -214,5 +215,13 @@ public class Board {
         else if (blackPawns.getLength() == 0)
             return -1;
         return 0;
+    }
+
+    public boolean getWTURN(){
+        return WTURN;
+    }
+
+    public void setWTURN() {
+        this.WTURN = !this.WTURN;
     }
 }
