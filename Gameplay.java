@@ -48,7 +48,6 @@ public class Gameplay {
                     b.movePawn(b.getBlackPawns().getXFrom(ctemp.idpawn),b.getBlackPawns().getYFrom(ctemp.idpawn), move[0], move[1]);
         
                     break;
-                    break;
                 case 3:
                     RandomBot rb = new RandomBot();
                     rb.moveRandomly(b);
