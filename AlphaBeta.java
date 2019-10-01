@@ -17,7 +17,7 @@ public class AlphaBeta {
     public ChosenMove alphabeta(Board b)   {
         depth=1;
         btemp = new Board[20];
-        for(int i=0; i<20 ;i++)   {
+        for(int i=0; i<MAXDEPTH+1 ;i++)   {
             btemp[i]= new Board();
         }
         neff=0;
@@ -32,8 +32,8 @@ public class AlphaBeta {
         System.out.println("Generate all move dalam AB: "+btemp[neff].getWTURN());
 
         for(int i=0; i < arrayset.size(); i++) {
-            System.out.println(i);
-            temp.CopyChosenMove(find_max_recursive(arrayset.get(i)));
+            System.out.println("Iterasi ke: "+i);
+            temp.CopyChosenMove(find_min_recursive(arrayset.get(i)));
             // System.out.println("move "+btemp[neff].getBlackPawns().getXFrom(temp.idpawn) +" "+btemp[neff].getBlackPawns().getYFrom(temp.idpawn)+" "+temp.move);
             int x1 = btemp[neff].getBlackPawns().getXFrom(temp.idpawn);
             int x2 = btemp[neff].getBlackPawns().getYFrom(temp.idpawn);
@@ -59,13 +59,14 @@ public class AlphaBeta {
 
     public ChosenMove find_max_recursive(ChosenMove C)   {
         btemp[neff+1].copy(BoardAfterMove(btemp[neff],C));
+        // System.out.println("Generate all move dalam max yg mau dicopy: "+btemp[neff].getWTURN());
+        // System.out.println("Generate all move dalam max result1: "+btemp[neff+1].getWTURN());
         neff++;
         ChosenMove temp_max= new ChosenMove(0,0,Integer.MIN_VALUE); //initialize value with MIN_INTEGER
         ArrayList<ChosenMove> arrayset;
         ChosenMove temp = new ChosenMove(0,0,0);
         arrayset = generateAllMove(btemp[neff]);
-        System.out.println("Generate all move dalam max: "+btemp[neff].getWTURN());
-
+        // System.out.println("Generate all move dalam max result2: "+btemp[neff].getWTURN());
         depth++;
 
         System.out.println(depth + " -max");

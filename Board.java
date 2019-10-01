@@ -53,7 +53,7 @@ public class Board {
         for (int l=0; l<b.whitePawns.getLength(); l++) {
             blackPawns.setPawn(l,b.blackPawns.getXFrom(l),b.blackPawns.getYFrom(l));
         }
-        WTURN = b.getWTURN(); 
+        this.WTURN = b.getWTURN(); 
     }
 
     public int[] SplitMove(int move){
