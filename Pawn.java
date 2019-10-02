@@ -1,3 +1,4 @@
+// Class yang mewakili pawn pada permainan yang berisi posisi x dan y saat ini serta jenis bidaknya yakni bidak biasa atau raja, hitam atau putih
 public class Pawn{
     private int x;
     private int y;

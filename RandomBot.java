@@ -1,5 +1,6 @@
 import java.util.Random;
 
+// Class yang mewakili bot yang bergerak random
 public class RandomBot {
     private static int moveX[]= new int[] {1, -1, -1,  1, 2, -2, -2,  2};
     private static int moveY[]= new int[] {1, -1,  1, -1, 2, -2,  2, -2};
@@ -8,6 +9,7 @@ public class RandomBot {
         return new int[] {curX-moveX[idxMove], curY-moveY[idxMove]};
     }
 
+    // Method yang berfungsi menggerakkan bidak acak milik bot di papan dengan pemilihan gerakan acak, dengan tetap megecek langkah yang legal
     public void moveRandomly(Board b) {
         Random randIdx = new Random(); 
         Random randMove = new Random(); 
@@ -15,7 +17,6 @@ public class RandomBot {
         int x, y;
         int idx;
         int len;
-
         do {
             int move = randMove.nextInt(8);
             if (b.getWTURN()) {

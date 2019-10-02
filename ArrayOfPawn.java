@@ -1,5 +1,5 @@
-
-
+// Class yang akan menyimpan pawn yang masih hidup untuk salah satu pihak pada permainan
+// Terdapat 2 ArrayofPawn pada setiap permainan yakni black & white
 public class ArrayOfPawn{
     private Pawn array[];
     private int size;
@@ -50,7 +50,7 @@ public class ArrayOfPawn{
         }     
     }
 
-    //return index of pawn at position (x,y), if found return index, not found return -1
+    //Mengembalikan indeks pawn pada posisi x dan y
     public int findPawn(int x, int y){
         int result = -1; 
         for(int i=0; i<length; i++){
@@ -70,6 +70,7 @@ public class ArrayOfPawn{
         return array[i].getY();
     }
 
+    //Delete pawn pada posisi x y
     public void deletePawn(int x, int y){
         int idxPawnWillDeleted = findPawn(x, y);
         if(idxPawnWillDeleted == this.length){
@@ -83,6 +84,7 @@ public class ArrayOfPawn{
         }
         
     }
+
 
     public void setPawn(int i, int x, int y) {
         this.array[i].setX(x);

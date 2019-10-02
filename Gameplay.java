@@ -1,5 +1,6 @@
 import java.util.Scanner;
 
+// Class yang menghandle gameplay utama
 public class Gameplay {
     public static void main(String args[]) throws InterruptedException {
         Scanner inp = new Scanner(System.in);

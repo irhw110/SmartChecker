@@ -8,8 +8,13 @@ public class Eval {
 						for (int j=0; j<8; j++) {
 								evalPetak = evalPetak + EvalKedekatanMenjadiRaja(i, j, b);
 								evalPetak = evalPetak + EvalAmanDariMusuh(i,j,b);
-								if (b.getPawn(i,j) == State.BLACK || b.getPawn(i,j) == State.BKING) {
-										evalPetak = -1*evalPetak;
+								evalPetak = evalPetak + BentengDariRaja(i,j,b);
+								/* evaluasi kalau raja */
+								if (b.getPawn(i,j) == State.WKING || b.getPawn(i,j) == State.BKING) {
+									evalPetak = evalPetak + 15;
+								}
+								if (b.getPawn(i,j) == State.WHITE || b.getPawn(i,j) == State.WKING) {
+									evalPetak = -1*evalPetak;
 								}
 								// b2.SetBoard(i,j,evalPetak);
 								totalEval = totalEval + evalPetak;
@@ -17,6 +22,10 @@ public class Eval {
 						}
 						// System.out.println(totalEval);
 				}
+
+				/* evaluasi selisih pawn */
+				int selisihPawn = b.getBlackPawns().getLength() - b.getWhitePawns().getLength();
+				totalEval += selisihPawn*100;
 				// b2.ShowBoard();
 				return totalEval;
 		}
@@ -49,12 +58,12 @@ public class Eval {
 				}
 				/* cek apakah disamping, samping pasti aman */
 				if (y == 0 || y == (b.getWidth()-1)) {
-						return 48;
+						return 12;
 				}
 
 				/* cek apakah diujung atas atau bawah, ujung atas atau bawah pasti aman */
 				if (x == 0 || x == (b.getHeight()-1)) {
-						return 48;
+						return 12;
 				}
 
 				/* x,y adalah bidak putih */
@@ -97,22 +106,40 @@ public class Eval {
 								if (b.getPawn(xbackup, ybackup) == State.NOPAWN) {
 										return 0;
 								} else {
-										return 12;
+										return 4;
 								}
 						} else {
-								return 12;
+								return 4;
 						}
 				} else {
 						if (b.getPawn(xenemy, yenemy) == State.WHITE || b.getPawn(xenemy,yenemy) == State.WKING) {
 								if (b.getPawn(xbackup, ybackup) == State.NOPAWN) {
 										return 0;
 								} else {
-										return 12;
+										return 4;
 								}
 						} else {
-								return 12;
+								return 4;
 						}
 				}
+		}
+
+		public static int BentengDariRaja(int x, int y, Board b) {
+			if (x==0) {
+				if (b.getPawn(x,y) == State.WHITE || b.getPawn(x,y) == State.WKING) {
+					return 5;
+				} else {
+					return 0;
+				}
+			} else if (x == (b.getHeight()-1)) {
+				if (b.getPawn(x,y) == State.BLACK || b.getPawn(x,y) == State.BKING) {
+					return 5;
+				} else {
+					return 0;
+				}
+			} else {
+				return 0;
+			}
 		}
 
 		// Driver

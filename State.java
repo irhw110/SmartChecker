@@ -1,3 +1,4 @@
+// Class yang mewakili state dari pawn saat ini
 class State{
     static final int NOPAWN = 0;
     static final int BLACK = 1;
@@ -6,5 +7,4 @@ class State{
     static final int WKING = 4;
     static final int COlORWHITE = 10;
     static final int COLORBLACK = 20;
-    // static boolean WTURN; /* true berarti putih lagi yang jalan, false berarti hitam yang jalan */
 }
